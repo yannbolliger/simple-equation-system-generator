@@ -38,7 +38,7 @@ class Rational {
 }
 
 function randomRational(denom) {
-  return new Rational(randomInt(), denom || randomInt())
+  return new Rational(randomInt(), denom || randomInt()).simplify()
 }
 
 class EquationSide {
@@ -107,7 +107,8 @@ class Equation {
   }
 }
 
-const randomVector = () => [randomRational(), randomRational()]
+const randomVector = (maxDenom) =>
+  [randomRational(maxDenom), randomRational(maxDenom)]
 
 
 const solvedSystem = (solution) => [
@@ -127,15 +128,14 @@ const transform = (system, _) => {
   const r = (rand + 1) % 2
 
   switch (rand) {
-    
+
     case 0:
       return [system[l].multiply(randomRational()), system[r]]
 
     case 1:
-    case 2:
-    case 3:
       return [system[l].multiply(randomRational(1)), system[r]]
 
+    case 2:
     case 3:
     case 4:
     case 5:
@@ -151,6 +151,19 @@ const transform = (system, _) => {
   }
 }
 
-const transformedSystem = (solution, difficulty) => {
-  return new Array(difficulty).fill(1).reduce(transform, solvedSystem(solution))
+const transformedSystem = (solution, rounds) => {
+  return new Array(rounds).fill(1).reduce(transform, solvedSystem(solution))
+}
+
+const generateExercise = difficulty => {
+  const diffInt = isNaN(parseInt(difficulty)) ? 5 : parseInt(difficulty)
+
+  const maxDenom = Math.round(diffInt * 1.5)
+  const solution = randomVector(randomInt(-maxDenom, maxDenom))
+  const rounds =  Math.round(diffInt * 1.4)
+
+  return {
+    solution: solution,
+    system: transformedSystem(solution, rounds)
+  }
 }
