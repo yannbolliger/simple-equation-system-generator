@@ -7,15 +7,44 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
     <title>Simple linear equation exercises</title>
+
+    <style>
+      .container {
+        max-width: 700px;
+        padding-top: 5em;
+      }
+
+      #math {
+        background-color: #e7e7e7;
+        padding: 1.5em;
+        margin: 2em 0;
+        text-align: center;
+        height: 13em;
+
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+      }
+
+      #solution {
+        opacity: 0;
+        transition: none;
+      }
+      #solution.active {
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
+
+      button {
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
 
     <div class="container">
-      <h1>Can you solve it?</h1>
 
-      <label for="range">Adjust difficulty:</label>
-      <strong id="difficulty"></strong>
-      <input type="range" class="custom-range" id="range" min="1" max="10">
+      <h1>Can you solve it?</h1>
 
       <div id="math">
         <div id="equation"></div>
@@ -23,14 +52,25 @@
         <div id="solution"></div>
       </div>
 
-      <button class="btn btn-warning">
-        Generate new equation
-      </button>
-      <button class="btn btn-danger">
-        Show solution
-      </button>
-    </div>
+      <label for="range">Difficulty:</label>
+      <strong id="difficulty"></strong>
+      <input type="range" class="custom-range" id="range" min="1" max="10">
 
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-lg btn-warning">
+            Generate new equation
+          </button>
+        </div>
+
+        <div class="col">
+          <button class="btn btn-lg btn-danger">
+            Show solution
+          </button>
+        </div>
+      </div>
+
+    </div>
 
     <script type="text/javascript"
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -53,15 +93,18 @@
         setDifficulty()
 
         $(".btn-warning").click(generateEquation)
-        $(".btn-danger").click(generateEquation)
+        $(".btn-danger").click(showSolution)
 
         $("#range").change(setDifficulty)
 
         function setDifficulty() {
           $("#difficulty").html($("#range").val())
+          generateEquation()
         }
 
         function generateEquation() {
+          $("#solution").removeClass("active")
+
           const exer = generateExercise($("#range").val())
 
           $("#solution").html("`(x,y) = (" + exer.solution + ")`")
@@ -69,6 +112,10 @@
             "`[[" + exer.system[0] + "],[" + exer.system[1] + "]]`")
 
           MathJax.Hub.Queue(["Typeset",MathJax.Hub,"math"]);
+        }
+
+        function showSolution() {
+          $("#solution").addClass("active")
         }
       })
     </script>
