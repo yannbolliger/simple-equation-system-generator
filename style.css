@@ -1,0 +1,51 @@
+.container {
+  max-width: 700px;
+  padding-top: 5em;
+}
+
+#math {
+  background-color: #e7e7e7;
+  padding: 1.5em;
+  margin: 2em 0;
+  text-align: center;
+  height: 13em;
+  overflow-x: scroll;
+
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+}
+
+#solution {
+  opacity: 0;
+  transition: none;
+}
+#solution.active {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+button {
+  width: 100%;
+}
+
+a {
+  display: block;
+  width: 100%;
+  margin-top: 2em;
+}
+
+a img {
+  width: 20px;
+  vertical-align: text-bottom;
+}
+
+@media screen and (max-width: 575.98px) {
+  #math {
+    padding: 0;
+  }
+
+  button {
+    margin-top: 0.5em;
+  }
+}
