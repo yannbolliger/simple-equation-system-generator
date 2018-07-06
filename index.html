@@ -20,6 +20,7 @@
         margin: 2em 0;
         text-align: center;
         height: 13em;
+        overflow-x: scroll;
 
         display: flex;
         flex-flow: column;
@@ -37,6 +38,27 @@
 
       button {
         width: 100%;
+      }
+
+      a {
+        display: block;
+        width: 100%;
+        margin-top: 2em;
+      }
+
+      a img {
+        width: 20px;
+        vertical-align: text-bottom;
+      }
+
+      @media screen and (max-width: 575.98px) {
+        #math {
+          padding: 0;
+        }
+
+        button {
+          margin-top: 0.5em;
+        }
       }
     </style>
   </head>
@@ -69,6 +91,12 @@
           </button>
         </div>
       </div>
+
+      <a
+        class="text-center text-secondary"
+        href="https://github.com/yannbolliger/simple-equation-system-generator">
+        View it on Github <img src="octicon.svg"/>
+      </a>
 
     </div>
 
