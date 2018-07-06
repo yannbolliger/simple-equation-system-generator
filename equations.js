@@ -70,6 +70,10 @@ class EquationSide {
     else return variable.toString() + variableName.toString()
   }
 
+  invert() {
+    return this.multiply(new Rational(-1))
+  }
+
   toString() {
     if (this.x.num === 0 && this.y.num === 0 && this.c.num === 0) return "0"
 
@@ -80,6 +84,9 @@ class EquationSide {
     return [x,y,c].filter(s => s.length > 0).join(" + ")
   }
 }
+
+const randomSide = () =>
+  new EquationSide(randomRational(1), randomRational(1), randomRational(1))
 
 class Equation {
   constructor(lhs, rhs) {
@@ -115,17 +122,32 @@ const solvedSystem = (solution) => [
 ]
 
 const transform = (system, _) => {
-  switch (randomInt(0, 5)) {
+  const rand = randomInt(0, 11)
+  const l = rand % 2
+  const r = (rand + 1) % 2
+
+  switch (rand) {
+    
     case 0:
-      return [system[1], system[0]]
+      return [system[l].multiply(randomRational()), system[r]]
+
     case 1:
-      return [system[0], system[1].add(system[0])]
     case 2:
-      return [system[0].multiply(randomRational()), system[1]]
     case 3:
-      return [system[0], system[1].multiply(randomRational(1))]
+      return [system[l].multiply(randomRational(1)), system[r]]
+
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+      return [system[l], system[r].add(system[l])]
+
     default:
-      return [system[0].add(system[1]), system[1]]
+      const rSide = randomSide()
+      const lhs = system[l].lhs.add(rSide)
+      const rhs = system[l].rhs.add(rSide.invert())
+
+      return [new Equation(lhs, rhs), system[r]]
   }
 }
 
