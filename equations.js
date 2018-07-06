@@ -132,6 +132,3 @@ const transform = (system, _) => {
 const transformedSystem = (solution, difficulty) => {
   return new Array(difficulty).fill(1).reduce(transform, solvedSystem(solution))
 }
-
-const difficulty = 8
-const solution = randomVector()
